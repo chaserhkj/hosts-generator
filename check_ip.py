@@ -13,16 +13,15 @@ def main():
         ip=base_ip+str(i)
         try:
             res=urllib2.urlopen("http://%s/"%ip)
+            if re.search("<title>Google</title>",res.read())!=None:
+                print "IP %s ; Accepted."%ip
+                with open(output_file,"a") as f:
+                    f.write(ip+"\n")
+            else:
+                print "IP %s ; Discarded."%ip
         except Exception as e:
             print "IP %s ; Error Occourred:"%ip
             print e
-            continue
-        if re.search("<title>Google</title>",res.read())!=None:
-            print "IP %s ; Accepted."%ip
-            with open(output_file,"a") as f:
-                f.write(ip+"\n")
-        else:
-            print "IP %s ; Discarded."%ip
 
 
 if __name__ == '__main__':
