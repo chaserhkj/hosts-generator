@@ -36,7 +36,7 @@ def main(specify=False):
                 print "IP %s ; Discarded."%ip
         except Exception as e:
             print "IP %s ; Error Occourred:"%ip
-            print e
+            print e," Discarded."
     ts=ips.keys()
     ts.sort()
     with open(output_file,"a") as f:
