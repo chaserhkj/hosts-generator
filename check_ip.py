@@ -8,7 +8,7 @@ import sys
 time_out=5
 output_file="./ip"
 
-def main(specify=False):
+def main(specify=False,ipv6=False):
     socket.setdefaulttimeout(time_out)
     base_ip=raw_input("Input base IP:")
     if specify:
@@ -19,8 +19,16 @@ def main(specify=False):
         request_path="/"
         pattern="<title>Google</title>"
     ips={}
-    for i in range(1,256):
-        ip=base_ip+str(i)
+    if ipv6:
+        top=65536
+    else:
+        top=256
+    for i in range(1,top):
+        if ipv6:
+            i=hex(i).split("x")[-1]
+            ip="[%s%s]"%(base_ip,i)
+        else:
+            ip=base_ip+str(i)
         try:
             req=urllib2.Request(url="http://%s%s"%(ip,request_path))
             if specify:
@@ -44,4 +52,5 @@ def main(specify=False):
 
 if __name__ == '__main__':
     specify="-s" in sys.argv or "--specify" in sys.argv
-    main(specify)
+    ipv6="-6" in sys.argv or "--ipv6" in sys.argv
+    main(specify,ipv6)
