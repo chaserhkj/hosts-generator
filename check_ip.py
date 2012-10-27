@@ -9,7 +9,7 @@ import threading
 
 time_out=5
 output_file="./ip"
-thread_count=20
+thread_count=5
 
 class Worker(threading.Thread):
     def __init__(self,host,path,pattern,queue,num):
@@ -94,7 +94,7 @@ def main(specify=False,ipv6=False):
     ts=ips.keys()
     ts.sort()
     with open(output_file,"a") as f:
-        f.write("\n".join(ips[i] for i in ts ))
+        f.write("\n".join(ips[i].strip("[]") for i in ts ))
     print "All finished."
 
 if __name__ == '__main__':
