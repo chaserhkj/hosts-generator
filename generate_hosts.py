@@ -1,19 +1,34 @@
 #!/usr/bin/env python2
 
 import urllib2
+import sys
+import random
 
 hosts_list="./host_names"
 ips_list="./ip"
 error_out="./error_out"
 output_file="./hosts"
 
-def main():
+
+def main(no_check=False):
     with open(hosts_list) as f:
         hosts=f.read().split("\n")
         hosts=[i for i in hosts if i]
     with open(ips_list) as f:
         ips=f.read().split("\n")
         ips=[i for i in ips if i]
+
+    if no_check:
+        num=int(raw_input("Enter the range to choose IP in:"))
+        if num>len(ips):
+            raise Exception,"Not enough IPs!"
+        print "Writing to file..."
+        with open(output_file,'w') as f:
+            for i in hosts:
+                f.write("%s\t%s\n"%(ips[random.randrange(num)],i))
+        print "Finished."
+        return
+
     with open(error_out) as f:
         eo=f.read()
     d={}
@@ -45,4 +60,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    no_check="-n" in sys.argv or "--no-check" in sys.argv
+    main(no_check)
