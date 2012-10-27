@@ -93,7 +93,7 @@ def main(specify=False,ipv6=False):
     print "Writing to file..."
     ts=ips.keys()
     ts.sort()
-    with open(output_file,"a") as f:
+    with open(output_file,"w") as f:
         f.write("\n".join(ips[i].strip("[]") for i in ts ))
     print "All finished."
 
