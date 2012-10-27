@@ -21,7 +21,9 @@ class Worker(threading.Thread):
         self.__num=num
     def run(self):
         global ips,data_lock,print_lock
+        print_lock.acquire()
         print "Thread %d:Initializing..."%self.__num
+        print_lock.release()
         while True:
             ip=self.__queue.get()
             try:
