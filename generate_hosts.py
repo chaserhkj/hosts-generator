@@ -42,7 +42,7 @@ def main(no_check=False):
                 print "Discard Host %s"%i
                 break
             req=urllib2.Request(url="http://%s/"%ip,
-                                headers={"Hosts":i})
+                                headers={"Host":i})
             try:
                 res=urllib2.urlopen(req)
                 if res.read()!=eo:
