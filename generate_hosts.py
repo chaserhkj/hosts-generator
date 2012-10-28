@@ -45,18 +45,19 @@ def main(no_check=False):
                                 headers={"Hosts":i})
             try:
                 res=urllib2.urlopen(req)
+                if res.read()!=eo:
+                    print "Host %s ; IP %s ; Matched!"%(i,ip)
+                    d[i]=ip
+                    break
+                else:
+                    print "Host %s ; IP %s ; Not Matched!"%(i,ip)
             except Exception as e:
                 print "Host %s ; IP %s ; Error Occurred:"%(i,ip)
                 print e
                 continue
-            if res.read()!=eo:
-                print "Host %s ; IP %s ; Matched!"%(i,ip)
-                d[i]=ip
-                break
-            else:
-                print "Host %s ; IP %s ; Not Matched!"%(i,ip)
+
     with open(output_file,'w') as f:
-        f.wrtie("\n".join("\t".join(i) for i in d.items()))
+        f.write("\n".join("\t".join(i) for i in d.items()))
 
 
 if __name__ == '__main__':
