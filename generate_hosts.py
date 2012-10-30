@@ -38,7 +38,6 @@ def main(no_check=False):
     d={}
     for i in hosts:
         for mode in ["http","https"]:
-            print "Host %s ; Start checking in mode %s."%(i,mode)
             ipi=iter(ips)
             passed=False
             while True:
@@ -53,14 +52,14 @@ def main(no_check=False):
                 try:
                     res=urllib2.urlopen(req)
                     if res.read()!=eo:
-                        print "Host %s ; IP %s ; Matched!"%(i,ip)
+                        print "Host %s ; IP %s ; Mode %s ; Matched!"%(i,ip,mode)
                         passed=True
                         d[i]=ip
                         break
                     else:
-                        print "Host %s ; IP %s ; Not Matched!"%(i,ip)
+                        print "Host %s ; IP %s ; Mode %s ; Not Matched!"%(i,ip,mode)
                 except Exception as e:
-                    print "Host %s ; IP %s ; Error Occurred:"%(i,ip)
+                    print "Host %s ; IP %s ; Mode %s ; Error Occurred:"%(i,ip,mode)
                     print e
                     continue
             if passed:
