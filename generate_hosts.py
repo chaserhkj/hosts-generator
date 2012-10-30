@@ -8,7 +8,7 @@ hosts_list="./host_names"
 ips_list="./ip"
 error_out="./error_out"
 output_file="./hosts"
-
+ua="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4"
 
 def main(no_check=False):
     with open(hosts_list) as f:
@@ -42,7 +42,8 @@ def main(no_check=False):
                 print "Discard Host %s"%i
                 break
             req=urllib2.Request(url="http://%s/"%ip,
-                                headers={"Host":i})
+                                headers={"Host":i,
+                                         "User-Agent":ua})
             try:
                 res=urllib2.urlopen(req)
                 if res.read()!=eo:
