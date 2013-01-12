@@ -9,7 +9,7 @@ import threading
 
 time_out=5
 output_file="./ip"
-thread_count=5
+thread_count=200
 
 class Worker(threading.Thread):
     def __init__(self,host,path,pattern,queue,num):
@@ -53,7 +53,7 @@ class Worker(threading.Thread):
             finally:
                 self.__queue.task_done()
 
-def main(specify=False,ipv6=False):
+def main(specify=False,ipv6=False,set_top=False):
     global ips,data_lock,print_lock
     socket.setdefaulttimeout(time_out)
     base_ip=raw_input("Input base IP:")
@@ -66,6 +66,8 @@ def main(specify=False,ipv6=False):
         request_path="/"
         pattern="<title>Google</title>"
 
+    if set_top:
+        top=int(raw_input("Input top value:"))
     ips={}
     data_lock=threading.Lock()
     print_lock=threading.Lock()
@@ -78,10 +80,12 @@ def main(specify=False,ipv6=False):
         j.start()
         threads.append(j)
 
-    if ipv6:
-        top=65536
-    else:
-        top=256
+    if not set_top:
+        if ipv6:
+            top=65536
+        else:
+            top=256
+
     for i in range(1,top):
         if ipv6:
             i=hex(i).split("x")[-1]
@@ -102,4 +106,5 @@ def main(specify=False,ipv6=False):
 if __name__ == '__main__':
     specify="-s" in sys.argv or "--specify" in sys.argv
     ipv6="-6" in sys.argv or "--ipv6" in sys.argv
-    main(specify,ipv6)
+    top="-t" in sys.argv or "--set-top" in sys.argv
+    main(specify,ipv6,top)

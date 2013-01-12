@@ -6,6 +6,7 @@ import random
 import socket
 
 hosts_list="./host_names"
+ipv6_hosts_list="./host_names_ipv6"
 ips_list="./ip"
 error_out="./error_out"
 output_file="./hosts"
@@ -13,9 +14,15 @@ output_file="./hosts"
 ua="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4"
 time_out=5
 
-def main(no_check=False):
+def main(no_check=False,ipv6=False):
     socket.setdefaulttimeout(time_out)
-    with open(hosts_list) as f:
+
+    if ipv6:
+        hosts_name_file_name=ipv6_hosts_list
+    else:
+        hosts_name_file_name=hosts_list
+
+    with open(hosts_name_file_name) as f:
         hosts=f.read().split("\n")
         hosts=[i for i in hosts if i]
     with open(ips_list) as f:
@@ -73,4 +80,5 @@ def main(no_check=False):
 
 if __name__ == '__main__':
     no_check="-n" in sys.argv or "--no-check" in sys.argv
-    main(no_check)
+    ipv6="-6" in sys.argv or "--ipv6" in sys.argv
+    main(no_check,ipv6)
