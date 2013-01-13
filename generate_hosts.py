@@ -79,6 +79,6 @@ def main(no_check=False,ipv6=False):
 
 
 if __name__ == '__main__':
-    no_check="-n" in sys.argv or "--no-check" in sys.argv
+#    no_check="-n" in sys.argv or "--no-check" in sys.argv
     ipv6="-6" in sys.argv or "--ipv6" in sys.argv
-    main(no_check,ipv6)
+    main(True,ipv6)
